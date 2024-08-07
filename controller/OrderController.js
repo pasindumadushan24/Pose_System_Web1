@@ -40,6 +40,7 @@ function loadItemIds() {
     $('#item_id2').empty().append('<option selected disabled>Select Item ID</option>');
     item_db.forEach(item => {
         // Only show items that are in stock
+
         if (item.qtyInStock > 0) {
             $('#item_id2').append(`<option value="${item.item_id}">${item.item_id}</option>`);
         }
