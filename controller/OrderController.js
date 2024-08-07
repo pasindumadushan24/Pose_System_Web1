@@ -20,7 +20,7 @@ $(document).ready(function () {
     loadOrderHistoryTable(); // Load history on page load
 });
 
-// --- Utility Functions ---
+// --- Functions ---
 
 function loadCustomerIds() {
     $('#cust_id').empty().append('<option selected disabled>Select Customer ID</option>');
@@ -131,7 +131,7 @@ function resetOrderForm(restoreStock = true) {
 }
 
 
-// Order History Function
+// Order History
 function loadOrderHistoryTable() {
     $('#order_history_table').empty();
 
@@ -144,7 +144,7 @@ function loadOrderHistoryTable() {
         return;
     }
 
-    // The order database structure is line-item based, so we just iterate over it
+    // The order database structure
     order_db.forEach(order => {
         const lineTotal = order.price * order.orderQty;
 
@@ -165,7 +165,7 @@ function loadOrderHistoryTable() {
 
 // --- Event Handlers ---
 
-// Handler for deleting items from the cart and restoring stock
+// Handler for deleting items
 function attachCartDeleteHandler() {
     $('#order_table').off('click', '.delete-item').on('click', '.delete-item', function() {
         const indexToDelete = $(this).data('index');
@@ -185,7 +185,7 @@ function attachCartDeleteHandler() {
                 }
                 cart.splice(indexToDelete, 1);
                 loadOrderTable();
-                loadItemIds(); // Reload to update available stock count
+                loadItemIds(); // update available stock count
                 Swal.fire('Removed!', 'Item has been removed from cart.', 'success');
             }
         });
@@ -206,7 +206,7 @@ $('#add_items').on('click', function () {
 
     const itemInDB = item_db.find(i => i.item_id === item_id);
 
-    if (!itemInDB || orderQty > itemInDB.qtyInStock) { // Added !itemInDB check for safety
+    if (!itemInDB || orderQty > itemInDB.qtyInStock) { // Added !itemInDB
         Swal.fire({icon: "error", title: "Error!", text: `Not enough stock available! Only ${itemInDB ? itemInDB.qtyInStock : 0} in stock.`});
         return;
     }
@@ -214,7 +214,7 @@ $('#add_items').on('click', function () {
     const total = price * orderQty;
     const existingCartItem = cart.find(item => item.item_id === item_id);
 
-    // Update Inventory Stock (Decrease)
+    // Update Inventory Stock
     itemInDB.qtyInStock -= orderQty; // **STOCK DECREASED**
 
     // Update Cart
@@ -227,14 +227,14 @@ $('#add_items').on('click', function () {
 
     loadOrderTable();
 
-    // Clear item selection fields
+    // Clear item
     $('#item_id2').val('Select Item ID');
     $('#item_name2').val('');
     $('#price2').val('');
     $('#qty_on_hand').val('');
     $('#order_qty').val('');
 
-    // Reload item IDs to reflect the stock change (i.e., hide items that are now out of stock)
+    // Reload item IDs
     loadItemIds();
 });
 
@@ -251,7 +251,7 @@ $('#place_order').on('click', function () {
         return;
     }
 
-    // Save Order to Database (each item in the cart becomes an OrderModel instance)
+    // Save Order to Database
     cart.forEach(cartItem => {
         const newOrder = new OrderModel( // ***Used correct 'OrderModel' class name***
             order_id, date, cust_id, cust_name, address,
@@ -268,13 +268,13 @@ $('#place_order').on('click', function () {
         text: `Order ${order_id} has been successfully placed for ${cust_name}.`,
         confirmButtonText: 'OK'
     }).then(() => {
-        // Now call the modified reset function, setting restoreStock to false
+
         resetOrderForm(false);
     });
 });
 
 
-// Handler for cancelling the full order and restoring all stock
+// Handler for cancelling the full order
 function attachCancelOrderHandler() {
     $('#cancel_order').on('click', function() {
         if (cart.length > 0) {

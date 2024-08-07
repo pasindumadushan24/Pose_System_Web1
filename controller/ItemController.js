@@ -66,7 +66,7 @@ function isValidInput(itemName, category, price, qtyInStock, description) {
     if (itemName.trim() === '' || category.trim() === '' || description.trim() === ''){
         return false; // Check for empty strings
     }
-    // Check if price and qtyInStock are valid positive numbers
+    // Check if price and qtyInStock
     if (isNaN(price) || isNaN(qtyInStock) || price < 0 || qtyInStock < 0 || price.toString().trim() === '' || qtyInStock.toString().trim() === '') {
         return false;
     }
@@ -87,9 +87,6 @@ function loadItemIntoForm(item, index) {
 }
 
 
-// ---------------------------------------------
-// 🔎 LIVE SEARCH AND FILTER FUNCTION
-// ---------------------------------------------
 
 /**
  * Filters the item table based on the input in the search box.
@@ -98,9 +95,9 @@ function filterItemTable() {
     const searchTerm = $('#item_search').val().trim().toLowerCase();
 
     if (searchTerm === '') {
-        // If search term is empty, show all items
+
         loadItemTable();
-        // Clear main form inputs, but preserve the current ID
+
         $('#item_name').val('');
         $('#category').val('');
         $('#price').val('');
@@ -110,7 +107,7 @@ function filterItemTable() {
         return;
     }
 
-    // Find all items that contain the search term in their name (case-insensitive)
+    // Find all items
     const filteredItems = item_db.filter(item =>
         item.itemName.toLowerCase().includes(searchTerm)
     );
@@ -124,7 +121,7 @@ function filterItemTable() {
 
 
 // ---------------------------------------------
-// Event Handlers (CRUD Operations)
+//  (CRUD Operations)
 // ---------------------------------------------
 
 // Save Item (CREATE)
@@ -145,7 +142,7 @@ $('#item_register').on('click', function () {
         return;
     }
 
-    // Use the ItemModel (optional, but good practice for consistency)
+    // Use the ItemModel
     let newItem = new ItemModel(item_id, itemName, category, price, qtyInStock, description);
 
     item_db.push(newItem);
@@ -253,16 +250,14 @@ $('#item_table').on('click', 'tr', function () {
 });
 
 
-// ----------------- ⚡ LIVE SEARCH AND FORM LOAD IMPLEMENTATION ⚡ -----------------
 
-// 1. Live Filtering on Key Up
 $('#item_search').on('keyup', filterItemTable);
 
-// 2. Button Click: Filters table AND loads the exact match into the form
+
 $('#searchItemButton').on('click', function () {
     const searchTerm = $('#item_search').val().trim().toLowerCase();
 
-    // 1. Filter the table based on the search term (partial match)
+
     filterItemTable();
 
     if (searchTerm === '') {
@@ -270,13 +265,13 @@ $('#searchItemButton').on('click', function () {
         return;
     }
 
-    // 2. Try to find an EXACT match to load into the form
+
     const exactMatchIndex = item_db.findIndex(item =>
         item.itemName.toLowerCase() === searchTerm
     );
 
     if (exactMatchIndex !== -1) {
-        // Exact match found: Load into form and show feedback
+
         const foundItem = item_db[exactMatchIndex];
         loadItemIntoForm(foundItem, exactMatchIndex);
 
@@ -290,7 +285,7 @@ $('#searchItemButton').on('click', function () {
             timer: 3000
         });
     } else {
-        // No exact match found, but the table is already filtered (if partial matches exist)
+
         Swal.fire({
             icon: "info",
             title: "Table Filtered",
