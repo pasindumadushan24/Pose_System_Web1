@@ -337,6 +337,7 @@ $('#searchButton').on('click', function (e) {
             timer: 3000
         });
 
+
         //  generated ID.
         generateNextId();
         $('#first_name').val('');
