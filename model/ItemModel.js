@@ -14,5 +14,6 @@ export default class ItemModel {
         this.price = price;
         this.qtyInStock = qtyInStock;
         this.description = description;
+
     }
 }
