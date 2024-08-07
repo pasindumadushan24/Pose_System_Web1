@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS System - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link id="theme-style" rel="stylesheet" href="../MyPos/styles/style.css">
+  <style>
+
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: blanchedalmond;
+    }
+
+    /*#logoutButton {*/
+    /*  position: absolute;*/
+    /*  bottom: 10px; !* eke spacing eka adjust karanna *!*/
+    /*  width: 10px;*/
+    /*  left: 1rem;*/
+    /*}*/
+
+
+    #pos_main_app {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<section id="login_page" class="login-container">
+  <div class="container">
+    <div class="row w-100">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card shadow-lg p-4">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4 text-primary">POS System Login</h3>
+            <form id="login-form">
+              <div class="mb-3">
+                <label for="inputUsername" class="form-label">Username</label>
+                <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" required value="user">
+              </div>
+              <div class="mb-4">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="password" required value="password">
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg" id="signInButton">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+              </div>
+              <div class="text-center mt-3">
+                <p class="text-muted small mb-0">Use: **user** / password</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<section id="pos_main_app">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 col-md-3 p-0 sidebar">
+        <div class="d-flex flex-column">
+          <div class="logo text-center text-white"></div>
+          <div class="theme-toggle-wrapper d-flex justify-content-center align-items-center mt-auto mb-auto flex-column">
+            <div class="form-check form-switch text-white">
+<!--              <input class="form-check-input" type="checkbox" id="themeToggle">-->
+<!--              <label class="form-check-label" for="themeToggle">Dark Mode</label>-->
+            </div>
+          </div>
+          <div class="menu-heading"></div>
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="customer_button" onclick=" this.classList.add('clicked')">
+                <i class="bi bi-people"></i>
+                Manage Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="item_button" onclick=" this.classList.add('clicked')">
+                <i class="bi bi-shop"></i>
+                Manage Store
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="order_button" onclick=" this.classList.add('clicked')">
+                <i class="bi bi-bag"></i>
+                Place Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="order_history_button" onclick=" this.classList.add('clicked')">
+                <i class="bi bi-bag"></i>
+                Order History
+              </a>
+            </li>
+          </ul>
+          <div class="mt-auto p-3">
+            <button class="btn btn-danger w-100" id="logoutButton">
+              <i class="bi bi-box-arrow-left me-2"></i>Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-10 col-md-9 p-0 content-wrapper">
+        <section id="customer_page">
+          <div class="bg-white shadow-sm p-3 mb-3">
+            <h5 class="page-title mb-0">Manage Customer</h5>
+          </div>
+
+          <div class="container-fluid px-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-8 mb-3 mb-md-0">
+                    <input type="text" class="form-control" placeholder="Search Customer" id="searchCustomer">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-grid">
+                      <button class="btn btn-primary" id="searchButton">
+                        <i class="bi bi-search me-2"></i>Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-header bg-white">
+<!--                <h6 class="mb-0">Customer Details</h6>-->
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="customer_id" class="form-label">Customer ID</label>
+                      <input type="text" class="form-control" id="customer_id"  readonly>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="first_name" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="first_name" >
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="last_name" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="last_name" >
+                    </div>
+                    <div class="col-md-6">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" >
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="phone" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="phone" >
+                    </div>
+                    <div class="col-md-6">
+                      <label for="address" class="form-label">Address</label>
+                      <input type="text" class="form-control" id="address">
+                    </div>
+                  </div>
+
+                  <div class="action-buttons d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-outline-secondary" id="customer_reset">Cancel</button>
+                    <button type="button" class="btn btn-success" id="customer_save">
+                      <i class="bi bi-person-plus me-1"></i>Save
+                    </button>
+                    <button type="button" class="btn btn-primary" id="customer_update">
+                      <i class="bi bi-pencil me-1"></i>Update
+                    </button>
+                    <button type="button" class="btn btn-danger" id="customer_delete">
+                      <i class="bi bi-trash me-1"></i>Delete
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped mb-0">
+                    <thead class="table-light">
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">First Name</th>
+                      <th class="text-center">Last Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Phone</th>
+                      <th class="text-center">Address</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customer_table">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="item_page">
+          <div class="bg-white shadow-sm p-3 mb-3">
+            <h5 class="page-title mb-0">Manage Store</h5>
+          </div>
+
+          <div class="container-fluid px-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-8 mb-3 mb-md-0">
+                    <input type="text" class="form-control" placeholder="Search item" id="item_search" >
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-grid">
+                      <button class="btn btn-primary" id="searchItemButton">
+                        <i class="bi bi-search me-2"></i>Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="add-items">
+                <div class="card mb-4">
+                  <div class="card-header bg-white">
+                    <h6 class="mb-0"></h6>
+                  </div>
+                  <div class="card-body">
+                    <form id="item-form">
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label for="item_id" class="form-label">Item_Id</label>
+                          <input type="text" class="form-control" id="item_id" readonly>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="item_name" class="form-label">Item Name</label>
+                          <input type="text" class="form-control" id="item_name" >
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label for="category" class="form-label">Category</label>
+                          <input type="text" class="form-control" id="category">
+                        </div>
+                        <div class="col-md-6">
+                          <label for="price" class="form-label">Price(Rs)</label>
+                          <input type="number" class="form-control" id="price" >
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label for="qty_in_stock" class="form-label">Qty In Stock</label>
+                          <input type="number" class="form-control" id="qty_in_stock" >
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-12">
+                          <label for="description" class="form-label">Description</label>
+                          <textarea class="form-control" id="description" rows="3" ></textarea>
+                        </div>
+                      </div>
+
+                      <div class="action-buttons d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary" id="item_cancel">Cancel </button>
+                        <button type="button" class="btn btn-success" id="item_register">
+                          <i class="bi bi-person-plus me-1"></i>Save
+                        </button>
+                        <button type="button" class="btn btn-primary" id="item_update">
+                          <i class="bi bi-pencil me-1"></i>Update
+                        </button>
+                        <button type="button" class="btn btn-danger" id="item_delete">
+                          <i class="bi bi-trash me-1"></i>Delete
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+<!--                    <h6 class="mb-0">All Items</h6>-->
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                        <tr>
+                          <th class="text-center">ID</th>
+                          <th class="text-center">Name</th>
+                          <th class="text-center">Category</th>
+                          <th class="text-center">Price</th>
+                          <th class="text-center">Qty In Stock</th>
+                          <th class="text-center">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody id="item_table">
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+
+
+
+        <section id="order_detail">
+          <div class="bg-white shadow-sm p-3 mb-3">
+            <h5 class="page-title mb-0">Place Order</h5>
+          </div>
+
+          <div class="container-fluid px-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-8 mb-3 mb-md-0">
+                    <input type="text" class="form-control" placeholder="Search Order ID">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-grid">
+                      <button class="btn btn-primary">
+                        <i class="bi bi-search me-2"></i>Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-3 mx-3">
+              <div class="card-body">
+                <h5 class="mb-3">Order</h5>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="order_id" class="form-label"  >Order_Id</label>
+                    <input type="text" class="form-control" id="order_id" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="text" class="form-control" id="date" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="cust_id" class="form-label">Cust_Id</label>
+                    <select class="form-select" id="cust_id">
+                      <option selected disabled>Select Customer ID</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="address" class="form-label">Adress</label>
+                    <input type="text" class="form-control" id="address2" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-3 mx-3">
+              <div class="card-body">
+                <h5 class="mb-3">Item</h5>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="item_id2" class="form-label">Item_Id</label>
+                    <select class="form-select" id="item_id2">
+                      <option selected disabled>Select Item ID</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="item_name" class="form-label">Item Name</label>
+                    <input type="text" class="form-control" id="item_name2" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price2" readonly>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="qty_on_hand" class="form-label">Qty On Hand</label>
+                    <input type="text" class="form-control" id="qty_on_hand" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="order_qty" class="form-label">Order Qty</label>
+                    <input type="number" class="form-control" id="order_qty" placeholder="Enter quantity">
+                  </div>
+                  <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" id="add_items">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header bg-white d-flex justify-content-between align-items-center">
+<!--                <h6 class="mb-0">Order Summary</h6>-->
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped mb-0">
+                    <thead class="table-light">
+                    <tr>
+                      <th class="text-center">Item ID</th>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Order Qty</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Action</th> </tr>
+                    </thead>
+                    <tbody id="order_table">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-3 mb-4 mx-3">
+              <div class="card-body bg-light">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5 class="mb-0">Grand Total:</h5>
+                  </div>
+                  <div class="col-md-6 text-end">
+                    <input type="text" class="form-control form-control-lg text-end fw-bold" id="order_total" value="0.00" readonly style="border: none; background: transparent;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-buttons d-flex justify-content-end gap-2 mb-4 mx-3">
+              <button type="button" class="btn btn-success" id="place_order">
+                <i class="bi bi-cart-check me-1"></i>Place Order
+              </button>
+              <button type="button" class="btn btn-outline-danger" id="cancel_order">
+                <i class="bi bi-x-circle me-1"></i>Cancel Order
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="order_history">
+          <div class="bg-white shadow-sm p-3 mb-3">
+            <h5 class="page-title mb-0">Order History</h5>
+          </div>
+
+          <div class="card">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+<!--              <h6 class="mb-0">History</h6>-->
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                  <thead class="table-light">
+                  <tr>
+                    <th class="text-center">Order ID</th>
+                    <th class="text-center">Item ID</th>
+                    <th class="text-center"> Item Name</th>
+                    <th class="text-center">Cust Id</th>
+                    <th class="text-center">Cust Name</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-center">Total</th>
+                  </tr>
+                  </thead>
+                  <tbody id="order_history_table">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="controller/SectionController.js"></script>
+<script type="module" src="controller/CustomerController.js"></script>
+<script type="module" src="controller/ItemController.js"></script>
+<script type="module" src="controller/OrderController.js"></script>
+<script>
+
+
+
+  // Default Light Theme Load Only
+  const themeStyle = document.getElementById('theme-style');
+  themeStyle.href = 'styles/style.css';
+
+
+  // LOGIN/LOGOUT LOGIC
+
+
+  const loginPage = document.getElementById('login_page');
+  const mainApp = document.getElementById('pos_main_app');
+  const loginForm = document.getElementById('login-form');
+  const logoutButton = document.getElementById('logoutButton');
+
+  // Hardcoded credentials for demonstration
+  const VALID_USERNAME = 'user';
+  const VALID_PASSWORD = 'password';
+
+  function showLogin() {
+    mainApp.style.display = 'none';
+    loginPage.style.display = 'flex';
+  }
+
+  function showApp() {
+    loginPage.style.display = 'none';
+    mainApp.style.display = 'flex';
+  }
+
+  // Check if a session/auth token exists (for a real app)
+  // For this demo, we assume we need to log in initially.
+  showLogin();
+
+  // Handle Login
+  loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const usernameInput = document.getElementById('inputUsername').value;
+    const passwordInput = document.getElementById('inputPassword').value;
+
+    if (usernameInput === VALID_USERNAME && passwordInput === VALID_PASSWORD) {
+      // Successful Login
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful',
+        text: 'Welcome back to POS System!',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(showApp);
+    } else {
+      // Failed Login
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid username or password. Please try again.',
+      });
+    }
+  });
+
+  // Handle Logout
+  logoutButton.addEventListener('click', function() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You will be logged out of the system.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, log me out!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Clear session/token (for a real app)
+        // Redirect to login page
+        showLogin();
+        // Clear input fields on login form
+        loginForm.reset();
+        Swal.fire(
+                'Logged Out!',
+                'You have been successfully logged out.',
+                'success'
+        );
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
