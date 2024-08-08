@@ -1,8 +1,8 @@
-// File: controller/CustomerController.js
+
 
 import { customer_db } from "../db/db.js";
 import CustomerModel from "../model/CustomerModel.js";
-import { loadCustomerIds } from "./OrderController.js"; // Import the function from OrderController
+import { loadCustomerIds } from "./OrderController.js";
 
 let selectedCustomerIndex = -1;
 
@@ -62,7 +62,7 @@ export function filterCustomerTable() {
     loadCustomerTable(filtered);
 }
 
-// ------------------- Event Handlers -------------------
+
 
 $('#customer_save').on('click', function () {
     const id = $('#customer_id').val();
@@ -87,7 +87,7 @@ $('#customer_save').on('click', function () {
 
     clearCustomerForm();
 
-    // 🔹 Update Order Form dropdown
+    //Update Order Form
     if (typeof loadCustomerIds === 'function') loadCustomerIds();
 });
 
