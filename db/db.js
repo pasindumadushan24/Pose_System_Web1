@@ -1,4 +1,5 @@
 
+
 export const customer_db = [
     { id: 'C001', fname: 'Pasindu', lname: 'Madushan', email: 'pasindu24hh@gmail.com', phone: '0763445366', address: 'Bandaragama' },
     { id: 'C002', fname: 'Ashan', lname: 'Peris', email: 'ashan@gmail.com', phone: '0745567888', address: 'Piliyandala' }
@@ -10,3 +11,4 @@ export const item_db = [
 ];
 
 export const order_db = [];
+
