@@ -1,39 +1,34 @@
-/* ======================================= */
-/* STYLE 1: LIGHT / NORMAL        */
-/* ======================================= */
 
-/* === Global Styles === */
 body {
     min-height: 100vh;
     /* Light, soft background color */
     background-color: #4589d8;
-    color: #1c2e4a; /* Primary text color */
+    color: #1c2e4a;
 }
 
 
 .sidebar .logo {
     font-size: 1.5rem;
     padding: 1.5rem 0;
-    /* Subtle separator color */
     border-bottom: 1px solid #364a66;
     background-color: #101c30;
     color: #4589d8;
     font-weight: 600;
 }
 .sidebar .nav-link {
-    /* Light grey/blue text color */
+
     color: rgba(236, 240, 241, 0.85);
     padding: 0.75rem 1.25rem;
     border-radius: 0.25rem;
     margin: 0.25rem 0.75rem;
 }
 .sidebar .nav-link:hover {
-    /* Soft blue on hover */
+
     background-color: rgba(69, 137, 216, 0.2);
     color: #fff;
 }
 .sidebar .nav-link.active {
-    /* Vibrant primary blue for active state */
+
     background-color: #4589d8;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     color: #fff;
@@ -47,114 +42,68 @@ body {
     font-size: 0.75rem;
     text-transform: uppercase;
     padding: 0.75rem 1.25rem;
-    /* Light muted text for heading */
     color: #9cb1c9;
     font-weight: 600;
     letter-spacing: 0.05rem;
 }
 
 
-/* === Content Area & Cards === */
+
 .content-wrapper {
     flex: 1;
 }
 .page-title {
-    /* Primary text color - dark blue */
+
     color: #1c2e4a;
     font-weight: 600;
 }
 .card {
     border: none;
-    background-color: #fff; /* White background for cards */
+    background-color: #fff;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
     border-radius: 0.5rem;
     overflow: hidden;
 }
-/*.card-header h6 {*/
-/*    !* Coral Accent color *!*/
-/*    color: #ff6b6b;*/
-/*    font-weight: 600;*/
-/*}*/
+
 .search-result {
     background-color: #fff;
     border-radius: 0.375rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-/* === Forms === */
+
 .form-control:focus {
-    /* Focus border to match primary blue */
+
     border-color: #4589d8;
     box-shadow: 0 0 0 0.2rem rgba(69, 137, 216, 0.25);
 }
 .customer-form input:disabled {
-    /* Match new background tone */
+
     background-color: #f2f5f7;
 }
 
 
+.logout-container {
+    margin-top: 120px;
+}
 
-/*!* === Buttons (Base) === *!*/
-/*.btn {*/
-/*    transition: all 0.2s ease-in-out;*/
-/*    font-weight: 500;*/
-/*    font-size: 0.9rem; !* Slightly reduced base font size *!*/
-/*}*/
-/*.btn-primary {*/
-/*    !* Vibrant Primary Blue *!*/
-/*    background-color: blue;*/
 
-/*}*/
-/*.btn-primary:hover {*/
-/*    !* Darker Primary Blue on hover *!*/
-/*    background-color:blue;*/
 
-/*}*/
-/*.btn-success {*/
-/*    !* Muted Teal/Green for success *!*/
-/*    background-color: blue;*/
 
-/*}*/
-/*.btn-success:hover {*/
-/*    !* Darker Muted Teal/Green on hover *!*/
-/*    background-color: blue;*/
 
-/*}*/
-/*.btn-danger {*/
-/*    !* Vibrant Coral Red for danger *!*/
-/*    background-color: blue;*/
-
-/*}*/
-/*.btn-danger:hover {*/
-/*    !* Darker Coral Red on hover *!*/
-/*    background-color: blue;*/
-/*}*/
-
-/*!* === Custom Small Button Class (Light Theme) === *!*/
-/*.btn-sm-custom-light {*/
-/*    padding: 0.4rem 0.8rem !important;*/
-/*    font-size: 0.75rem !important;*/
-/*    font-weight: 400;*/
-/*}*/
-/*.btn-sm-custom-light:hover {*/
-/*    transform: translateY(-1px);*/
-/*    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);*/
-/*}*/
-
-/* === Buttons (Base) === */
 .btn {
     transition: all 0.25s ease-in-out;
-    font-weight: 600; /* Slightly bolder for better readability */
+    font-weight: 600;
     font-size: 0.9rem;
     border: none;
-    border-radius: 8px; /* Smooth corners */
+    border-radius: 8px;
     padding: 0.45rem 1rem;
     letter-spacing: 0.5px;
 }
 
-/* === Primary Button === */
+
 .btn-primary {
-    background: linear-gradient(135deg, #1c2e4a, #4589d8); /* Deep blue gradient */
+    background: linear-gradient(135deg, #1c2e4a, #4589d8);
     color: #fff;
     box-shadow: 0 3px 6px rgba(69, 137, 216, 0.3);
 }
@@ -168,7 +117,7 @@ body {
     box-shadow: none;
 }
 
-/* === Success Button === */
+
 .btn-success {
     background: linear-gradient(135deg, #00a86b, #3577c5);
     color: #fff;
@@ -180,7 +129,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* === Danger Button === */
+
 .btn-danger {
     background: linear-gradient(135deg, #e63946, #3577c5);
     color: #fff;
@@ -192,7 +141,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* === Custom Small Button (Light Theme) === */
+
 .btn-sm-custom-light {
     padding: 0.35rem 0.75rem !important;
     font-size: 0.8rem !important;
@@ -215,15 +164,6 @@ body {
 
 
 
-/* === Tables === */
-/*.table thead th {*/
-/*    !* Table header text color *!*/
-/*    color: #1c2e4a;*/
-/*    font-weight: 600;*/
-/*    !* Table header line to match primary blue *!*/
-/*    border-bottom: 2px solid #4589d8;*/
-/*}*/
-/* === Tables (Modern Blue Theme) === */
 .table-container {
     background: #fff;
     border-radius: 10px;
@@ -232,7 +172,7 @@ body {
     margin-top: 1rem;
 }
 
-/* Table Base */
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -241,9 +181,9 @@ body {
     color: #1c2e4a;
 }
 
-/* Table Header */
+
 .table thead th {
-    background-color: #4589d8; /* Primary blue header */
+    background-color: #4589d8;
     color: #ffffff;
     font-weight: 600;
     text-transform: uppercase;
@@ -253,30 +193,30 @@ body {
     border-bottom: 2px solid #3870b3;
 }
 
-/* Table Rows */
+
 .table tbody tr {
     transition: background-color 0.2s ease, transform 0.1s ease;
     border-bottom: 1px solid #e6ecf3;
 }
 
-/* Zebra striping */
+
 .table tbody tr:nth-child(even) {
     background-color: #f8fbff;
 }
 
-/* Hover Effect */
+
 .table tbody tr:hover {
-    background-color: #e9f2ff; /* soft blue highlight */
+    background-color: #e9f2ff;
     transform: scale(1.01);
 }
 
-/* Table Cells */
+
 .table td {
     padding: 12px 16px;
     vertical-align: middle;
 }
 
-/* Table Footer (optional) */
+
 .table tfoot td {
     background-color: #f1f5fb;
     font-weight: 600;
@@ -284,7 +224,7 @@ body {
     border-top: 2px solid #456fd8;
 }
 
-/* Rounded edges & smooth transitions */
+
 .table-container .table {
     border-radius: 10px;
     overflow: hidden;
@@ -303,14 +243,14 @@ body {
 
 
 
-/* === Action Buttons Container (Applies to all themes) === */
+
 .action-buttons {
     padding: 1rem 0 0.5rem;
     display: flex;
     gap: 1rem;
 }
 .action-buttons .btn {
-    /* Ensure smaller buttons override the default padding here */
+
     margin: 0.1rem;
 }
 .action-buttons .btn:hover {
@@ -318,20 +258,18 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ... (Media queries would go here) ... */
 
-/* Global Styles */
 body {
     min-height: 100vh;
-    background-color: #9cb1c9; /* Soft light background */
+    background-color: #9cb1c9;
     font-family: 'Poppins', sans-serif;
     color: #1c2e4a;
     margin: 0;
 }
 
-/* Sidebar */
+
 .sidebar {
-    background: linear-gradient(180deg, #7a95ff, #0b14b8); /* gradient purple-blue */
+    background: linear-gradient(180deg, #7a95ff, #0b14b8);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -342,47 +280,6 @@ body {
 
 
 
-/* Logo */
-/*.logo {*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: 700;*/
-/*    padding: 1.5rem 0;*/
-/*    background: rgba(255,255,255,0.1);*/
-/*    letter-spacing: 1px;*/
-/*    transition: all 0.3s ease;*/
-/*}*/
-
-/* Logo hover effect */
-.logo:hover {
-    background: rgba(255,255,255,0.2);
-    cursor: default;
-}
-
-/* Menu Heading */
-/*.menu-heading {*/
-/*    font-size: 0.9rem;*/
-/*    font-weight: 600;*/
-/*    padding: 1rem;*/
-/*    color: #f0f0f0;*/
-/*    text-transform: uppercase;*/
-/*    letter-spacing: 1px;*/
-/*}*/
-/*.menu-heading {*/
-/*    font-size: 0.95rem;*/
-/*    font-weight: 800;                  !* Extra bold text *!*/
-/*    padding: 0.9rem 1.25rem;*/
-/*    color: #fff;                       !* White text *!*/
-/*    text-transform: uppercase;*/
-/*    letter-spacing: 1px;*/
-/*    border-left: 4px solid #ffd700;    !* Gold accent line on the left *!*/
-/*    background: rgba(255, 255, 255, 0.08); !* Slight contrast layer *!*/
-/*    margin: 0.75rem 0;*/
-/*    border-radius: 0 6px 6px 0;        !* Smooth edges *!*/
-/*    transition: all 0.3s ease;*/
-/*    text-shadow: 0 1px 2px rgba(0,0,0,0.5); !* Subtle shadow for bold effect *!*/
-/*}*/
-
-/* Subtle hover animation */
 .menu-heading:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #ffd700;
@@ -393,33 +290,12 @@ body {
 
 
 
-
-
-/* Nav Links */
-/*.nav-link {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    padding: 0.75rem 1.25rem;*/
-/*    color: rgba(255,255,255,0.85);*/
-/*    font-weight: 500;*/
-/*    transition: 0.3s;*/
-/*    border-left: 4px solid transparent;*/
-/*}*/
-
-/* Hover / Active State */
 .nav-link:hover, .nav-link.clicked {
     background-color: rgba(255,255,255,0.1);
     color: #ffffff;
-    border-left: 4px solid #ffd700; /* Gold accent for active */
+    border-left: 4px solid #ffd700;
 }
 
-/* Icons in menu */
-/*.nav-link i {*/
-/*    margin-right: 0.75rem;*/
-/*    font-size: 1.1rem;*/
-/*}*/
-
-/* Logout Button */
 #logoutButton {
 
     background: red;
@@ -433,7 +309,7 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Theme Toggle (optional) */
+
 .theme-toggle-wrapper {
     margin: 1.5rem 0;
     text-align: center;
@@ -441,49 +317,19 @@ body {
 
 
 
-
-/*!* Smaller search input *!*/
-/*#searchCustomer {*/
-/*    height: 36px;*/
-/*    font-size: 0.875rem;*/
-/*    border-radius: 6px;*/
-/*    flex-grow: 1; !* Takes available width *!*/
-/*}*/
-
-/*!* Small search button *!*/
-/*#searchButton {*/
-/*    height: 36px;*/
-/*    width: 85px; !* Square button *!*/
-/*    font-size: 0.9rem;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    padding: 0;*/
-/*    border-radius: 6px;*/
-/*    transition: all 0.2s ease-in-out;*/
-/*}*/
-
-/*!* Hover effect *!*/
-/*#searchButton:hover {*/
-/*    background-color: #3870b3;*/
-/*    border-color: #3870b3;*/
-/*    transform: translateY(-1px);*/
-/*    box-shadow: 0 2px 6px rgba(0,0,0,0.15);*/
-/*}*/
-/* === Sidebar Navigation === */
 .nav {
     list-style: none;
     padding-left: 0;
     margin: 0;
 }
 
-/* === Sidebar Links === */
+
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 10px;                        /* Space between icon and text */
+    gap: 10px;
     padding: 0.75rem 1rem;
-    color: #dce3eb;                   /* Soft white-gray */
+    color: #dce3eb;
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
@@ -492,15 +338,15 @@ body {
     transition: all 0.3s ease;
 }
 
-/* === Hover State === */
+
 .nav-link:hover {
     background: rgba(255, 255, 255, 0.15);
-    color: #ffd700;                   /* Gold text on hover */
-    transform: translateX(5px);       /* Slight slide animation */
+    color: #ffd700;
+    transform: translateX(5px);
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* === Active/Clicked State === */
+
 .nav-link.clicked,
 .nav-link.active {
     background: linear-gradient(135deg, #ffd700, #f5b700);
@@ -510,19 +356,19 @@ body {
     transform: translateX(5px);
 }
 
-/* === Icon Style === */
+
 .nav-link i {
     font-size: 1.2rem;
     transition: all 0.3s ease;
 }
 
-/* === Icon Hover Glow === */
+
 .nav-link:hover i {
     color: #ffd700;
     transform: scale(1.1);
 }
 
-/* === Sidebar Heading (Optional) === */
+
 .menu-heading {
     font-size: 0.9rem;
     font-weight: 700;
