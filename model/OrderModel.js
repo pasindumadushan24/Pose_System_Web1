@@ -1,6 +1,6 @@
-export default class OrderModel{
 
-    constructor(order_id, date, cust_id, cust_name, address ,item_id, item_name ,price, orderQty){
+export default class OrderModel {
+    constructor(order_id, date, cust_id, cust_name, address, item_id, item_name, price, orderQty) {
         this.order_id = order_id;
         this.date = date;
         this.cust_id = cust_id;

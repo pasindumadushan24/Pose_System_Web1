@@ -1,13 +1,9 @@
-// File: controller/OrderController.js
 
-import {item_db, order_db, customer_db} from "../db/db.js";
-import OrderModel from "../model/OrderModel.js"; // ***FIXED: Imported as 'OrderModel' (uppercase M)***
-
-// --- Global State & Utility Functions ---
+import { item_db, order_db, customer_db } from "../db/db.js";
+import OrderModel from "../model/OrderModel.js";
+import { loadItemTable } from "./ItemController.js";
 
 let cart = [];
-
-// --- Initialization ---
 
 $(document).ready(function () {
     loadCustomerIds();
@@ -17,37 +13,32 @@ $(document).ready(function () {
     updateGrandTotal();
     attachCartDeleteHandler();
     attachCancelOrderHandler();
-    loadOrderHistoryTable(); // Load history on page load
+    loadOrderHistoryTable();
 });
 
-// --- Functions ---
-
-function loadCustomerIds() {
+export function loadCustomerIds() {
     $('#cust_id').empty().append('<option selected disabled>Select Customer ID</option>');
-    customer_db.forEach(customer => {
-        $('#cust_id').append(`<option value="${customer.id}">${customer.id}</option>`);
-    });
+    customer_db.forEach(c => $('#cust_id').append(`<option value="${c.id}">${c.id}</option>`));
+
     $('#cust_id').off('change').on('change', function () {
-        const selectedId = $(this).val();
-        const customer = customer_db.find(c => c.id === selectedId);
-        $('#name').val(customer ? customer.fname + ' ' + customer.lname : '');
+        const customer = customer_db.find(c => c.id === $(this).val());
+        $('#name').val(customer ? `${customer.fname} ${customer.lname}` : '');
         $('#address2').val(customer ? customer.address : '');
     });
 }
 
-
-function loadItemIds() {
+export function loadItemIds() {
     $('#item_id2').empty().append('<option selected disabled>Select Item ID</option>');
     item_db.forEach(item => {
-        // Only show items that are in stock
-
         if (item.qtyInStock > 0) {
             $('#item_id2').append(`<option value="${item.item_id}">${item.item_id}</option>`);
         }
     });
+
     $('#item_id2').off('change').on('change', function () {
         const selectedId = $(this).val();
         const item = item_db.find(i => i.item_id === selectedId);
+
         $('#item_name2').val(item ? item.itemName : '');
         $('#price2').val(item ? item.price.toFixed(2) : '');
         $('#qty_on_hand').val(item ? item.qtyInStock : '');
@@ -67,13 +58,10 @@ function setTodayDate() {
 
 function updateGrandTotal() {
     let grandTotal = 0;
-    cart.forEach(item => {
-        grandTotal += item.total;
-    });
+    cart.forEach(item => grandTotal += item.total);
     $('#order_total').val(grandTotal.toFixed(2));
 }
 
-// Order Summary Table (Cart)
 function loadOrderTable() {
     $('#order_table').empty();
     cart.forEach((item, index) => {
@@ -95,28 +83,19 @@ function loadOrderTable() {
     updateGrandTotal();
 }
 
-/**
- * Resets the order form.
- * @param {boolean} restoreStock - If true, stock in the DB is restored for items in the cart (used for CANCEL). If false, stock is NOT restored (used for PLACE ORDER).
- */
 function resetOrderForm(restoreStock = true) {
-    // 1. Restore stock to inventory for items in the current cart ONLY IF restoreStock is true
     if (restoreStock) {
         cart.forEach(item => {
             const itemInDB = item_db.find(i => i.item_id === item.item_id);
-            if (itemInDB) {
-                itemInDB.qtyInStock += item.orderQty; // **STOCK RESTORED** (on Cancel/Delete)
-            }
+            if (itemInDB) itemInDB.qtyInStock += item.orderQty;
         });
     }
 
-    // 2. Clear cart and reset UI
     cart = [];
     loadOrderTable();
     generateNextId();
     setTodayDate();
 
-    // Clear fields
     $('#cust_id').val('Select Customer ID');
     $('#name').val('');
     $('#address2').val('');
@@ -126,16 +105,13 @@ function resetOrderForm(restoreStock = true) {
     $('#qty_on_hand').val('');
     $('#order_qty').val('');
 
-    // Reload item IDs to reflect restored stock (if done) or just reflect general state
     loadItemIds();
+    loadItemTable(); // <-- refresh table
     loadOrderHistoryTable();
 }
 
-
-// Order History
 function loadOrderHistoryTable() {
     $('#order_history_table').empty();
-
     if (order_db.length === 0) {
         $('#order_history_table').append(`
             <tr>
@@ -145,10 +121,8 @@ function loadOrderHistoryTable() {
         return;
     }
 
-    // The order database structure
     order_db.forEach(order => {
         const lineTotal = order.price * order.orderQty;
-
         $('#order_history_table').append(`
             <tr>
                 <td class="text-center fw-bold">${order.order_id}</td>
@@ -163,12 +137,8 @@ function loadOrderHistoryTable() {
     });
 }
 
-
-// --- Event Handlers ---
-
-// Handler for deleting items
 function attachCartDeleteHandler() {
-    $('#order_table').off('click', '.delete-item').on('click', '.delete-item', function() {
+    $('#order_table').off('click', '.delete-item').on('click', '.delete-item', function () {
         const indexToDelete = $(this).data('index');
         const itemToDelete = cart[indexToDelete];
 
@@ -178,67 +148,61 @@ function attachCartDeleteHandler() {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, remove it!'
-        }).then((result) => {
+        }).then(result => {
             if (result.isConfirmed) {
                 const itemInDB = item_db.find(i => i.item_id === itemToDelete.item_id);
-                if (itemInDB) {
-                    itemInDB.qtyInStock += itemToDelete.orderQty; // **STOCK RESTORED**
-                }
+                if (itemInDB) itemInDB.qtyInStock += itemToDelete.orderQty;
+
                 cart.splice(indexToDelete, 1);
                 loadOrderTable();
-                loadItemIds(); // update available stock count
+                loadItemIds();
+                loadItemTable(); // <-- refresh table
                 Swal.fire('Removed!', 'Item has been removed from cart.', 'success');
             }
         });
     });
 }
 
-
 $('#add_items').on('click', function () {
-    let item_id = $('#item_id2').val();
-    let item_name = $('#item_name2').val();
-    let price = parseFloat($('#price2').val());
-    let orderQty = parseInt($('#order_qty').val());
+    const item_id = $('#item_id2').val();
+    const item_name = $('#item_name2').val();
+    const price = parseFloat($('#price2').val());
+    const orderQty = parseInt($('#order_qty').val());
 
     if (!item_id || isNaN(orderQty) || orderQty <= 0) {
-        Swal.fire({icon: "error", title: "Error!", text: "Please select an item and enter a valid order quantity (> 0)."});
+        Swal.fire({ icon: "error", title: "Error!", text: "Please select an item and enter a valid order quantity (> 0)." });
         return;
     }
 
     const itemInDB = item_db.find(i => i.item_id === item_id);
 
-    if (!itemInDB || orderQty > itemInDB.qtyInStock) { // Added !itemInDB
-        Swal.fire({icon: "error", title: "Error!", text: `Not enough stock available! Only ${itemInDB ? itemInDB.qtyInStock : 0} in stock.`});
+    if (!itemInDB || orderQty > itemInDB.qtyInStock) {
+        Swal.fire({ icon: "error", title: "Error!", text: `Not enough stock! Only ${itemInDB ? itemInDB.qtyInStock : 0} left.` });
         return;
     }
 
     const total = price * orderQty;
     const existingCartItem = cart.find(item => item.item_id === item_id);
 
-    // Update Inventory Stock
-    itemInDB.qtyInStock -= orderQty; // **STOCK DECREASED**
+    itemInDB.qtyInStock -= orderQty;
+    loadItemTable(); // <-- refresh table after stock update
 
-    // Update Cart
     if (existingCartItem) {
         existingCartItem.orderQty += orderQty;
         existingCartItem.total += total;
     } else {
-        cart.push({item_id, item_name, price, orderQty, total});
+        cart.push({ item_id, item_name, price, orderQty, total });
     }
 
     loadOrderTable();
+    loadItemIds();
 
-    // Clear item
     $('#item_id2').val('Select Item ID');
     $('#item_name2').val('');
     $('#price2').val('');
     $('#qty_on_hand').val('');
     $('#order_qty').val('');
-
-    // Reload item IDs
-    loadItemIds();
 });
-
 
 $('#place_order').on('click', function () {
     const order_id = $('#order_id').val();
@@ -248,46 +212,34 @@ $('#place_order').on('click', function () {
     const address = $('#address2').val();
 
     if (!cust_id || cust_id === "Select Customer ID" || cart.length === 0) {
-        Swal.fire({icon: "error", title: "Error!", text: "Please select a customer and add items to the cart to place an order."});
+        Swal.fire({ icon: "error", title: "Error!", text: "Please select a customer and add items to the cart to place an order." });
         return;
     }
 
-    // Save Order to Database
     cart.forEach(cartItem => {
-        const newOrder = new OrderModel( // ***Used correct 'OrderModel' class name***
+        const newOrder = new OrderModel(
             order_id, date, cust_id, cust_name, address,
-            cartItem.item_id, cartItem.item_name, cartItem.price,
-            cartItem.orderQty
+            cartItem.item_id, cartItem.item_name, cartItem.price, cartItem.orderQty
         );
         order_db.push(newOrder);
     });
 
-    // Success Notification and UI Reset
-    Swal.fire({
-        icon: "success",
-        title: "Order Placed!",
-        text: `Order ${order_id} has been successfully placed for ${cust_name}.`,
-        confirmButtonText: 'OK'
-    }).then(() => {
-
-        resetOrderForm(false);
-    });
+    Swal.fire({ icon: "success", title: "Order Placed!", text: `Order ${order_id} placed for ${cust_name}.`, confirmButtonText: 'OK' })
+        .then(() => resetOrderForm(false));
 });
 
-
-// Handler for cancelling the full order
 function attachCancelOrderHandler() {
-    $('#cancel_order').on('click', function() {
+    $('#cancel_order').on('click', function () {
         if (cart.length > 0) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "All items in the cart will be cleared and stock restored!",
+                text: "All items in cart will be cleared and stock restored!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, cancel it!'
-            }).then((result) => {
+            }).then(result => {
                 if (result.isConfirmed) {
-                    resetOrderForm(true); // This call restores the stock!
+                    resetOrderForm(true);
                     Swal.fire('Cancelled!', 'The current order has been cancelled and stock restored.', 'success');
                 }
             });
@@ -297,7 +249,6 @@ function attachCancelOrderHandler() {
     });
 }
 
-// Handler to refresh the history table when the sidebar button is clicked
-$('#order_history_button').on('click', function() {
+$('#order_history_button').on('click', function () {
     loadOrderHistoryTable();
 });
