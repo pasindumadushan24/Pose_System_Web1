@@ -1,81 +1,49 @@
-// File: ItemController.js
-
-import {item_db} from "../db/db.js";
-import ItemModel from "../model/ItemModel.js"; // Import the fixed model
+import { item_db } from "../db/db.js";
+import ItemModel from "../model/ItemModel.js";
 
 let selectedItemIndex = -1;
 
-// Call initial functions
-loadItemTable();
-generateNextId();
 
-// ---------------------------------------------
-// Core Functions
-// ---------------------------------------------
-
-/**
- * Renders the item data from item_db into the HTML table.
- * @param {Array} [dataToLoad=item_db] - The array of items to render. Defaults to the full database.
- */
-function loadItemTable(dataToLoad = item_db) {
+// Load item table
+export function loadItemTable(dataToLoad = item_db) {
     $('#item_table').empty();
-
-    // Use the provided array or the full database
-    dataToLoad.map((item) => {
-        let data = `<tr>
+    dataToLoad.forEach((item, index) => {
+        $('#item_table').append(`
+            <tr>
                 <td>${item.item_id}</td>
                 <td>${item.itemName}</td>
                 <td>${item.category}</td>
                 <td>${item.price}</td>
                 <td>${item.qtyInStock}</td>
                 <td>${item.description}</td>
-            </tr>`
-
-        $('#item_table').append(data)
+            </tr>
+        `);
     });
 }
 
-/**
- * Generates the next sequential item ID and sets it to the input field.
- */
+// Generate next ID
 function generateNextId() {
-    const nextId = 'I' + String(item_db.length + 1).padStart(3, '0');
-    $('#item_id').val(nextId);
-    selectedItemIndex = -1; // Reset selection on ID generation
+    $('#item_id').val('I' + String(item_db.length + 1).padStart(3, 0));
+    selectedItemIndex = -1;
 }
 
-/**
- * Clears all input fields and resets the ID/selection index.
- */
+// Clear form
 function clearForm() {
     generateNextId();
-    $('#item_search').val("");
-    $('#item_name').val("");
-    $('#category').val("");
-    $('#price').val("");
-    $('#qty_in_stock').val("");
-    $('#description').val("");
-    selectedItemIndex = -1; // Ensure selection is reset
-    loadItemTable(); // Always reset the table view to show all items
+    $('#item_search').val('');
+    $('#item_name, #category, #price, #qty_in_stock, #description').val('');
+    selectedItemIndex = -1;
+    loadItemTable();
 }
 
-/**
- * Validates form inputs for non-empty fields and valid numbers.
- */
+// input  eka Validate karanawa
 function isValidInput(itemName, category, price, qtyInStock, description) {
-    if (itemName.trim() === '' || category.trim() === '' || description.trim() === ''){
-        return false; // Check for empty strings
-    }
-    // Check if price and qtyInStock
-    if (isNaN(price) || isNaN(qtyInStock) || price < 0 || qtyInStock < 0 || price.toString().trim() === '' || qtyInStock.toString().trim() === '') {
-        return false;
-    }
+    if (!itemName.trim() || !category.trim() || !description.trim()) return false;
+    if (isNaN(price) || isNaN(qtyInStock) || price < 0 || qtyInStock < 0) return false;
     return true;
 }
 
-/**
- * Loads item data into the form inputs for viewing/editing.
- */
+// Load item
 function loadItemIntoForm(item, index) {
     $('#item_id').val(item.item_id);
     $('#item_name').val(item.itemName);
@@ -86,222 +54,113 @@ function loadItemIntoForm(item, index) {
     selectedItemIndex = index;
 }
 
-
-
-/**
- * Filters the item table based on the input in the search box.
- */
+//  item table thoranawa
 function filterItemTable() {
     const searchTerm = $('#item_search').val().trim().toLowerCase();
-
-    if (searchTerm === '') {
-
-        loadItemTable();
-
-        $('#item_name').val('');
-        $('#category').val('');
-        $('#price').val('');
-        $('#qty_in_stock').val('');
-        $('#description').val('');
-        selectedItemIndex = -1;
+    if (!searchTerm) {
+        clearForm();
         return;
     }
 
-    // Find all items
-    const filteredItems = item_db.filter(item =>
-        item.itemName.toLowerCase().includes(searchTerm)
-    );
-
-    if (filteredItems.length > 0) {
-        loadItemTable(filteredItems);
-    } else {
-        loadItemTable([]); // Show an empty table
-    }
+    const filtered = item_db.filter(i => i.itemName.toLowerCase().includes(searchTerm));
+    loadItemTable(filtered);
 }
 
+// ----------------- CRUD -----------------
 
-// ---------------------------------------------
-//  (CRUD Operations)
-// ---------------------------------------------
-
-// Save Item (CREATE)
+// CREATE
 $('#item_register').on('click', function () {
-    let item_id = $('#item_id').val();
-    let itemName = $('#item_name').val();
-    let category = $('#category').val();
-    let price = Number($('#price').val()); // Use Number() for better parsing
-    let qtyInStock = Number($('#qty_in_stock').val());
-    let description = $('#description').val();
+    const item_id = $('#item_id').val();
+    const itemName = $('#item_name').val();
+    const category = $('#category').val();
+    const price = Number($('#price').val());
+    const qtyInStock = Number($('#qty_in_stock').val());
+    const description = $('#description').val();
 
-    if (!isValidInput(itemName, category, price, qtyInStock, description)){
-        Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Please enter valid inputs. All fields are required, and Price/Quantity must be valid non-negative numbers."
-        });
+    if (!isValidInput(itemName, category, price, qtyInStock, description)) {
+        Swal.fire({ icon: 'error', title: 'Error!', text: 'Invalid input. All fields required, numbers must be valid.' });
         return;
     }
 
-    // Use the ItemModel
-    let newItem = new ItemModel(item_id, itemName, category, price, qtyInStock, description);
-
-    item_db.push(newItem);
-    console.log(item_db);
-
+    item_db.push(new ItemModel(item_id, itemName, category, price, qtyInStock, description));
     loadItemTable();
+    Swal.fire({ icon: 'success', title: 'Item Added!' });
 
-    Swal.fire({
-        title: "Item Added successfully!",
-        icon: "success",
-        draggable: true
+
+    import("../controller/OrderController.js").then(module => {
+        module.loadItemIds();
     });
 
     clearForm();
 });
 
-// Update Item (UPDATE)
-$(`#item_update`).on('click',function (){
-    let item_id = $('#item_id').val();
-    let itemName = $('#item_name').val();
-    let category = $('#category').val();
-    let price = Number($('#price').val());
-    let qtyInStock = Number($('#qty_in_stock').val());
-    let description = $('#description').val();
+// UPDATE
+$('#item_update').on('click', function () {
+    if (selectedItemIndex === -1) { Swal.fire({ icon: 'warning', title: 'Select an item!' }); return; }
 
-    if (selectedItemIndex === -1) {
-        Swal.fire({
-            icon: "warning",
-            title: "No item selected!",
-            text: "Please select an item to update."
-        });
+    const item_id = $('#item_id').val();
+    const itemName = $('#item_name').val();
+    const category = $('#category').val();
+    const price = Number($('#price').val());
+    const qtyInStock = Number($('#qty_in_stock').val());
+    const description = $('#description').val();
+
+    if (!isValidInput(itemName, category, price, qtyInStock, description)) {
+        Swal.fire({ icon: 'error', title: 'Error!', text: 'Invalid input.' });
         return;
     }
 
-    if (!isValidInput(itemName, category, price, qtyInStock, description)){
-        Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Please enter valid inputs. All fields are required, and Price/Quantity must be valid non-negative numbers."
-        });
-        return;
-    }
-
-    // Update the item in the database array
     item_db[selectedItemIndex] = new ItemModel(item_id, itemName, category, price, qtyInStock, description);
-
     loadItemTable();
-    console.log(item_db);
+    Swal.fire({ icon: 'success', title: 'Item Updated!' });
 
-    Swal.fire({
-        title: "Item updated successfully!",
-        icon: "success"
+    import("../controller/OrderController.js").then(module => {
+        module.loadItemIds();
     });
 
     clearForm();
 });
 
-// Clear Form / Cancel Button
-$(`#item_cancel`).on('click', function () {
-    clearForm();
+// DELETE
+$('#item_delete').on('click', function () {
+    if (selectedItemIndex === -1) { Swal.fire({ icon: 'warning', title: 'Select an item!' }); return; }
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You cannot undo this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+        if (result.isConfirmed) {
+            item_db.splice(selectedItemIndex, 1);
+            loadItemTable();
+            Swal.fire({ icon: 'success', title: 'Item Deleted!' });
+
+            import("../controller/OrderController.js").then(module => {
+                module.loadItemIds();
+            });
+
+            clearForm();
+        }
+    });
 });
 
-// Delete Item (DELETE)
-$(`#item_delete`).on('click',function (){
-    if(selectedItemIndex !== -1) {
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                item_db.splice(selectedItemIndex, 1);
-                loadItemTable();
-                clearForm();
-
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Item has been deleted successfully.",
-                    icon: "success"
-                });
-            }
-        });
-    } else {
-        Swal.fire({
-            icon: "warning",
-            title: "No Selection",
-            text: "Please select an item to delete."
-        });
-    }
-});
-
-// Select a item by clicking on a table row (READ)
+// READ - select item from table
 $('#item_table').on('click', 'tr', function () {
-    selectedItemIndex = $(this).index();
-    const selectedItem = item_db[selectedItemIndex];
-
-    if (selectedItem) {
-        loadItemIntoForm(selectedItem, selectedItemIndex);
-    }
+    const index = $(this).index();
+    if (item_db[index]) loadItemIntoForm(item_db[index], index);
 });
 
-
-
+// Search
 $('#item_search').on('keyup', filterItemTable);
+$('#searchItemButton').on('click', filterItemTable);
+
+// CLEAR
+$('#item_cancel').on('click', clearForm);
 
 
-$('#searchItemButton').on('click', function () {
-    const searchTerm = $('#item_search').val().trim().toLowerCase();
-
-
-    filterItemTable();
-
-    if (searchTerm === '') {
-        clearForm(); // Reset form if search is empty
-        return;
-    }
-
-
-    const exactMatchIndex = item_db.findIndex(item =>
-        item.itemName.toLowerCase() === searchTerm
-    );
-
-    if (exactMatchIndex !== -1) {
-
-        const foundItem = item_db[exactMatchIndex];
-        loadItemIntoForm(foundItem, exactMatchIndex);
-
-        Swal.fire({
-            icon: "success",
-            title: "Item Found!",
-            text: `Details for ${foundItem.itemName} loaded for editing.`,
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
-    } else {
-
-        Swal.fire({
-            icon: "info",
-            title: "Table Filtered",
-            text: `No exact item name match found. Table filtered by "${searchTerm}".`,
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
-
-        // Clear form data but keep the filtered view
-        $('#item_name').val('');
-        $('#category').val('');
-        $('#price').val('');
-        $('#qty_in_stock').val('');
-        $('#description').val('');
-        selectedItemIndex = -1;
-    }
+$(document).ready(function () {
+    generateNextId();
+    loadItemTable();
 });
