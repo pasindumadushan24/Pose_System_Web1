@@ -17,12 +17,6 @@
       background-color: blanchedalmond;
     }
 
-    /*#logoutButton {*/
-    /*  position: absolute;*/
-    /*  bottom: 10px; !* eke spacing eka adjust karanna *!*/
-    /*  width: 10px;*/
-    /*  left: 1rem;*/
-    /*}*/
 
 
     #pos_main_app {
@@ -50,7 +44,7 @@
               </div>
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary btn-lg" id="signInButton">
-                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Log In
                 </button>
               </div>
               <div class="text-center mt-3">
@@ -80,8 +74,7 @@
           <div class="logo text-center text-white"></div>
           <div class="theme-toggle-wrapper d-flex justify-content-center align-items-center mt-auto mb-auto flex-column">
             <div class="form-check form-switch text-white">
-<!--              <input class="form-check-input" type="checkbox" id="themeToggle">-->
-<!--              <label class="form-check-label" for="themeToggle">Dark Mode</label>-->
+
             </div>
           </div>
           <div class="menu-heading"></div>
@@ -111,11 +104,13 @@
               </a>
             </li>
           </ul>
-          <div class="mt-auto p-3">
+
+          <div class="logout-container">
             <button class="btn btn-danger w-100" id="logoutButton">
               <i class="bi bi-box-arrow-left me-2"></i>Logout
             </button>
           </div>
+
         </div>
       </div>
 
@@ -147,7 +142,6 @@
 
             <div class="card mb-4">
               <div class="card-header bg-white">
-<!--                <h6 class="mb-0">Customer Details</h6>-->
               </div>
               <div class="card-body">
                 <form>
@@ -311,7 +305,7 @@
 
                 <div class="card">
                   <div class="card-header bg-white d-flex justify-content-between align-items-center">
-<!--                    <h6 class="mb-0">All Items</h6>-->
+
                   </div>
                   <div class="card-body p-0">
                     <div class="table-responsive">
@@ -432,7 +426,7 @@
 
             <div class="card">
               <div class="card-header bg-white d-flex justify-content-between align-items-center">
-<!--                <h6 class="mb-0">Order Summary</h6>-->
+
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -487,7 +481,7 @@
 
           <div class="card">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
-<!--              <h6 class="mb-0">History</h6>-->
+
 
             </div>
             <div class="card-body p-0">
@@ -527,12 +521,12 @@
 
 
 
-  // Default Light Theme Load Only
+  //  Light Theme Load
   const themeStyle = document.getElementById('theme-style');
   themeStyle.href = 'styles/style.css';
 
 
-  // LOGIN/LOGOUT LOGIC
+  // LOGIN/LOGOUT logic eka
 
 
   const loginPage = document.getElementById('login_page');
@@ -540,7 +534,7 @@
   const loginForm = document.getElementById('login-form');
   const logoutButton = document.getElementById('logoutButton');
 
-  // Hardcoded credentials for demonstration
+  // password and user name change
   const VALID_USERNAME = 'user';
   const VALID_PASSWORD = 'password';
 
@@ -554,11 +548,11 @@
     mainApp.style.display = 'flex';
   }
 
-  // Check if a session/auth token exists (for a real app)
-  // For this demo, we assume we need to log in initially.
+
+
   showLogin();
 
-  // Handle Login
+  //  Login hadale
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -566,7 +560,7 @@
     const passwordInput = document.getElementById('inputPassword').value;
 
     if (usernameInput === VALID_USERNAME && passwordInput === VALID_PASSWORD) {
-      // Successful Login
+
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
@@ -575,7 +569,7 @@
         timer: 1500
       }).then(showApp);
     } else {
-      // Failed Login
+
       Swal.fire({
         icon: 'error',
         title: 'Login Failed',
@@ -584,7 +578,7 @@
     }
   });
 
-  // Handle Logout
+  //  Logout
   logoutButton.addEventListener('click', function() {
     Swal.fire({
       title: 'Are you sure?',
@@ -596,10 +590,9 @@
       confirmButtonText: 'Yes, log me out!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Clear session/token (for a real app)
-        // Redirect to login page
+
         showLogin();
-        // Clear input fields on login form
+
         loginForm.reset();
         Swal.fire(
                 'Logged Out!',
